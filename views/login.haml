@@ -1,0 +1,10 @@
+- unless flash[:error].blank?
+  #flash
+    =flash[:error]
+
+%form{:method => "POST", :action => "/login"}
+  Project ID:
+  %input{:type => "text", :name => "project_id", :style => "margin-left: 0px;"} <br />
+  API Key:
+  %input{:type => "text", :name => "api_key", :style => "margin-left: 0px;"} <br />
+  %input{:type => "submit", :value => "Login", :style => "margin-left: 0px;"}

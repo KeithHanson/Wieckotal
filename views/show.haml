@@ -1,0 +1,90 @@
+!!!
+%html
+  %head
+    %title
+      PT LESS SUCKY
+    %style{ :type => "text/css", :media => "screen" }
+      body { font: 1em/1.5em "Lucida Grande"; padding: 20px; margin: 0 auto; max-width: 1000px; }
+      a { color: inherit; text-decoration: none; }
+      ol { list-style: none; margin: 0; padding: 0; }
+      ol li { border-bottom: 1px solid #ddd; padding: 6px 0 6px 30px; }
+      
+      ol li .points { display: block; float: left; width: 20px; height: 1.6em; line-height: 1.6em; margin-top: 0.2em; margin-left: -30px; background-color: #999; text-align: center; color: #fff; -webkit-border-radius: 2px; font-weight: bold; font-size: 0.8em; }
+      ol li .points.one { background-color: #f09; }
+      ol li .points.two { background-color: #09f; }
+      ol li .points.three { background-color: #f90; }
+      
+      \.label { font-size: 0.8em; text-transform: uppercase; float: right; }
+      
+      ol.done { border-top: 5px solid #999; }
+      ol.done li { color: #aaa; }
+      ol.done li .points { background-color: #aaa; }
+      
+      h5 { margin-bottom: 0; }
+      h5 + p { margin-top: 0; }
+      
+      input { font-size: 1em; margin-left: -30px; margin-bottom: 1em; }
+      textarea { width: 100%; height: 8em; margin-top: 1em; font-size: 1em; padding: 1em; margin-left: -30px; }
+      {}
+  %body
+    %h2
+      %a{ :href => "index.html" }
+        Today
+    %ol
+      %li
+        %span.points.three
+          3
+        %span.label
+          bigbear, newsroom
+        Ensure Stats are being recorded (MM)
+      %li
+        %h3
+          Description
+        %p
+          We need to ensure that the newsroom really is recording events and statistics.
+      %li.comments
+        %h4
+          Comments (8)
+        %h5
+          Mike Mayo 8 Dec 2009, 12:07pm
+        %p
+          Can we get a list of all the stats we know we want recorded, so I can be sure none are missed?
+        %h5
+          Mike Mayo 8 Dec 2009, 1:07pm
+        %p
+          Video stats fixed in VM 0.22.28
+        %h5
+          Mike Mayo 8 Dec 2009, 1:15pm
+        %p
+          Photo stats look to be recording appropriately
+        %h5
+          Mike Mayo 8 Dec 2009, 2:01pm
+        %p
+          Release stats fixed in RM 0.8.17
+        %h5
+          Mike Mayo 8 Dec 2009, 2:19pm
+        %p
+          AudioManagement is in a regrettable state, can't transcode audio since it hasn't switched to our new transcoding system. I think we should create a separate ticket for AM to have it brought up to date.
+        %h5
+          Mike Mayo 8 Dec 2009, 5:43pm
+        %p
+          Found an issue with Photo recording, it wasn't being done appropriately. Working on fixing this in all the projects. I've updated the newsroom and mbusa and pushed those out to stage sites. Working on Mitsu now.
+        %h5
+          Mike Mayo 8 Dec 2009, 6:02pm
+        %p
+          Updated Mitsu and pushed to stage.
+        %p
+          The only outstanding issue is how to handle stat tracking for mailers and rss feeds. Should they be recorded the same way?
+        %h5
+          Keith Hanson 8 Dec 2009, 6:24pm
+        %p
+          this is ready for testing on stage site for mitsu, mbusa, and demo.
+        %p
+          There is limited UI in the admin for testing these things. Preview an image, watch and see if the totals update.
+      %li
+        %textarea
+          woot comment goes here!
+        %input{ :type => "submit", :value => "Post Comment" }
+      %li{ :style => "text-align: center" }
+        %a{ :href => "#" }
+          go to pivotaltracker &raquo;

@@ -1,0 +1,43 @@
+.graph
+.today
+  %h2= "Today (#{@pt.project.name})"
+  %ol
+    - @stories.each do |story|
+      %li{:id => "#{story.id}"}
+        %span{:class => "points #{["one", "two", "three"][story.estimate.to_i]}"}
+          = story.estimate 
+        - story.labels.split(",").sort.each do |label|
+          - if label == "production ready"
+            %span.label.production_ready
+              = label 
+          - else
+            %span.label.project
+              = label 
+        %a{ :href => "#" }
+          = "#{story.name} (<span class='owner'>#{story.owned_by.nil? ? "<b>UNASSIGNED</b>" : story.owned_by}</span>)"
+        %div.description{:id => "story-#{story.id}"}
+          Requested By: 
+          %b= story.requested_by
+          %br/
+          = RDiscount.new(cleanup_html(story.description)).to_html
+        .comments 
+          %a{:href => "#"}
+            Load Comments
+  %ol.done
+    - @accepted.each do |story|
+      %li{:id => "#{story.id}"}
+        %span.points.three
+          = story.estimate 
+        %span.label
+          = story.labels
+        %a{ :href => "#" }
+          = "#{story.name} (#{story.owned_by})"
+        .description
+          = RDiscount.new(cleanup_html(story.description)).to_html
+        .comments
+          %a{:href => "#"}
+            Load Comments
+  %ol
+    %li{ :style => "text-align: center" }
+      %a{ :href => "#" }
+        go to pivotaltracker &raquo;

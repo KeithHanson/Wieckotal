@@ -1,0 +1,6 @@
+- @comments.each do |comment|
+  .comment
+    ="(#{comment.noted_at.to_formatted_s(:short)}) <b>#{comment.author}</b>"
+    %br
+    =comment.text
+
