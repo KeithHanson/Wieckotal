@@ -1,0 +1,6 @@
+sinatra --version "= 0.9.2"
+pivotal-tracker --version "= 0.0.6"
+activesuppert --version "= 2.3.5"
+rdiscount --version "= 1.5.5"
+rack --version "= 1.0.1"
+rack-flash
