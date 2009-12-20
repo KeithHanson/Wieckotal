@@ -31,7 +31,7 @@
         %span.label
           = story.labels
         %a{ :href => "#" }
-          = "#{story.name} (#{story.owned_by})"
+          = "#{story.name} (<span class='owner'>#{story.owned_by.nil? ? "<b>UNASSIGNED</b>" : story.owned_by}</span>)"
         .description
           = RDiscount.new(cleanup_html(story.description)).to_html
         .comments

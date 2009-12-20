@@ -1,5 +1,6 @@
 var graph = {
   data: {},
+  completed_data: {},
   init: function () {
     $(".today ol li a span.owner").each(function(index, domElement) {
       var owner = $(this);
@@ -15,7 +16,23 @@ var graph = {
       {
         graph.data[owner_name] += points;
       }
-    })
+    });
+    /* Commenting out for now
+    $(".done li a span.owner").each(function(index, domElement) {
+      var owner = $(this);
+      var owner_name = owner.text();
+      var points = parseInt(jQuery.trim(owner.parent().siblings(".points").text()));
+      
+      if(graph.completed_data[owner_name] == undefined || graph.completed_data[owner_name] == null)
+      {
+        graph.completed_data[owner_name] = 0;
+      }
+
+      if(!isNaN(points))
+      {
+        graph.completed_data[owner_name] += points;
+      }
+    }) */
   },
   plot: function () {
     data = [];
@@ -27,7 +44,8 @@ var graph = {
     });
 
     $.plot($(".graph"), [
-      { label: "Points Per Owner", data: data }
+      { label: "Points Per Owner", data: data },
+      { label: "Completed Points", data: completed_data}
     ], {
       series: { bars: { show: true, align: "center" } },
       xaxis: {
