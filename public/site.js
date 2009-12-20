@@ -1,7 +1,7 @@
 var graph = {
   data: {},
   init: function () {
-    $("span.owner").each(function(index, domElement) {
+    $(".today ol li a span.owner").each(function(index, domElement) {
       var owner = $(this);
       var owner_name = owner.text();
       var points = parseInt(jQuery.trim(owner.parent().siblings(".points").text()));
