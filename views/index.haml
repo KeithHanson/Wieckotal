@@ -4,7 +4,7 @@
   %ol
     - @stories.each do |story|
       %li{:id => "#{story.id}"}
-        %span{:class => "points #{["one", "two", "three"][story.estimate.to_i]}"}
+        %span{:class => "points #{["one", "two", "three"][story.estimate.to_i - 1]}"}
           = story.estimate 
         - story.labels.split(",").sort.each do |label|
           - if label == "production ready"
