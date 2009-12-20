@@ -44,7 +44,7 @@ var graph = {
     });
 
     $.plot($(".graph"), [
-      { label: "Points Per Owner", data: data }
+      { label: "Today's Points", data: data }
     ], {
       series: { bars: { show: true, align: "center" } },
       xaxis: {
