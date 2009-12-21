@@ -6,13 +6,14 @@
       %li{:id => "#{story.id}"}
         %span{:class => "points #{["one", "two", "three"][story.estimate.to_i - 1]}"}
           = story.estimate 
-        - story.labels.split(",").sort.each do |label|
-          - if label == "production ready"
-            %span.label.production_ready
-              = label 
-          - else
-            %span.label.project
-              = label 
+        - unless story.labels.blank?
+          - story.labels.split(",").sort.each do |label|
+            - if label == "production ready"
+              %span.label.production_ready
+                = label 
+            - else
+              %span.label.project
+                = label 
         %a{ :href => "#" }
           = "#{story.name} (<span class='owner'>#{story.owned_by.nil? ? "<b>UNASSIGNED</b>" : story.owned_by}</span>)"
         %div.description{:id => "story-#{story.id}"}
