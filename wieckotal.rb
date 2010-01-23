@@ -42,6 +42,87 @@ class Wieckotal < Sinatra::Base
     haml :index
   end
 
+  get '/stats' do
+    @all_stories = @pt.current_iteration.stories
+
+    @done_stories = @all_stories.select {|s| s.current_state == "accepted"}
+
+    @done_stories_points = {}
+    @done_stories_points_ams = {}
+
+    @done_stories.each do |story|
+      story.labels.split(",").each do |label|
+        unless ["newsroom", "production ready"].include?(label.downcase)
+          @done_stories_points[label] ||= 0
+          @done_stories_points[label] += story.estimate.to_i 
+        end
+      end unless story.labels.nil?
+
+      if story.labels && ["Scott Schwartz", "Lindsay Hamm", "Todd Colston"].include?(story.requested_by)
+        @done_stories_points_ams[story.requested_by] ||= 0
+        @done_stories_points_ams[story.requested_by] += story.estimate.to_i
+      end
+    end
+
+    @done_stories_points = @done_stories_points.to_json
+    @done_stories_points_ams = @done_stories_points_ams.to_json
+    @done_stories = @done_stories.to_json
+
+    @finished_stories = @all_stories.select {|s| s.current_state == "finished"}
+
+    @finished_stories_points = {}
+    @finished_stories_points_ams = {}
+    @finished_stories_points_devs = {}
+
+    @finished_stories.each do |story|
+      story.labels.split(",").each do |label|
+        unless ["newsroom", "production ready"].include?(label.downcase)
+          @finished_stories_points[label] ||= 0
+          @finished_stories_points[label] += story.estimate.to_i 
+        end
+      end unless story.labels.nil? || story.labels.include?("production ready")
+
+      if story.labels && !story.labels.include?("production ready") && ["Scott Schwartz", "Lindsay Hamm", "Todd Colston"].include?(story.owned_by)
+        @finished_stories_points_ams[story.owned_by] ||= 0
+        @finished_stories_points_ams[story.owned_by] += story.estimate.to_i 
+      end
+
+      if story.labels && !story.labels.include?("production ready") && !["Scott Schwartz", "Lindsay Hamm", "Todd Colston"].include?(story.owned_by)
+        @finished_stories_points_devs[story.owned_by] ||= 0
+        @finished_stories_points_devs[story.owned_by] += story.estimate.to_i 
+      end
+    end
+
+    @finished_stories = @finished_stories.to_json
+    @finished_stories_points = @finished_stories_points.to_json
+    @finished_stories_points_ams = @finished_stories_points_ams.to_json
+    @finished_stories_points_devs = @finished_stories_points_devs.to_json
+
+    @delivered_stories = @all_stories.select {|s| s.current_state == "delivered"}
+    @delivered_stories_points = {}
+    @delivered_stories_points_ams = {}
+
+    @delivered_stories.each do |story|
+      story.labels.split(",").each do |label|
+        unless ["newsroom", "production ready"].include?(label.downcase)
+          @delivered_stories_points[label] ||= 0
+          @delivered_stories_points[label] += story.estimate.to_i 
+        end
+      end unless story.labels.nil?
+
+      if story.labels && story.labels.include?("production ready") && ["Scott Schwartz", "Lindsay Hamm", "Todd Colston"].include?(story.owned_by)
+        @delivered_stories_points_ams[story.requested_by] ||= 0
+        @delivered_stories_points_ams[story.requested_by] += story.estimate.to_i
+      end
+    end
+
+    @delivered_stories = @delivered_stories.to_json
+    @delivered_stories_points = @delivered_stories_points.to_json
+    @delivered_stories_points_ams = @delivered_stories_points_ams.to_json
+    
+    haml :stats
+  end
+
   get '/login' do
     haml :login
   end

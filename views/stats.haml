@@ -1,0 +1,22 @@
+%script{:type => "text/javascript"}
+  = "done_stories = #{@done_stories};"
+  = "done_stories_points = #{@done_stories_points};"
+  = "done_stories_points_ams = #{@done_stories_points_ams};"
+  = "finished_stories = #{@finished_stories};"
+  = "finished_stories_points = #{@finished_stories_points};"
+  = "finished_stories_points_ams = #{@finished_stories_points_ams};"
+  = "finished_stories_points_devs = #{@finished_stories_points_devs};"
+  = "delivered_stories = #{@delivered_stories};"
+  = "delivered_stories_points = #{@delivered_stories_points};"
+  = "delivered_stories_points_ams = #{@delivered_stories_points_ams};"
+%script{:src => "/stats.js", :type => "text/javascript"}
+%h1{:style => "width: 100%;text-align: center;"}
+  Stats for Current Iteration (#{@pt.current_iteration.stories.inject(0) {|sum, s| sum += s.estimate.to_i}} points)
+%h2 Pushed To Production And QA'd
+#done_stories.graph
+#done_stories_ams.graph
+
+%h2 Pushed To Stage Awaiting QA or Further Dev
+#finished_stories.graph
+#finished_stories_ams.graph
+#finished_stories_devs.graph
