@@ -1,0 +1,11 @@
+%script{:type => "text/javascript"}
+  = "week_labels = #{@week_labels.to_json};"
+  = "completed_results = #{@completed_results.to_json};"
+  = "ticketed_results = #{@ticketed_results.to_json};"
+  = "points_ticketed = #{@points_ticketed.to_json};"
+  = "points_completed = #{@points_completed.to_json};"
+%script{:src => "/history.js", :type => "text/javascript"}
+%h1{:style => "width: 100%;text-align: center;"}
+  Stats for the past 8 weeks
+#history.graph
+#points_history.graph
