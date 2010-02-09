@@ -123,6 +123,58 @@ class Wieckotal < Sinatra::Base
     haml :stats
   end
 
+  get '/history' do
+    @@stories ||= []
+    @@stories = @pt.stories if @@stories.empty?
+    puts "Gathered Stories"
+
+    @weeks_array = 8.times.collect do |num|
+      beginning = Time.now.at_beginning_of_week - (7 * num).days
+      ending = Time.now.at_end_of_week - (7 * num).days
+
+      {:beginning => beginning, :ending => ending}
+    end.reverse
+
+    @results = []
+
+    @@stories.each do |story|
+      @weeks_array.each_with_index do |week, week_idx|
+        if week[:beginning] <= story.created_at && week[:ending] >= story.created_at
+          @results[week_idx] ||= {}
+          @results[week_idx][:ticketed] ||= 0
+          @results[week_idx][:points_ticketed] ||= 0
+
+          @results[week_idx][:ticketed] += 1
+          @results[week_idx][:points_ticketed] += story.estimate unless story.estimate.nil?
+        end
+
+        if story.accepted_at && week[:beginning] <= story.accepted_at && week[:ending] >= story.accepted_at
+          @results[week_idx] ||= {}
+          @results[week_idx][:completed] ||= 0
+          @results[week_idx][:points_completed] ||= 0
+
+          @results[week_idx][:completed] += 1
+          @results[week_idx][:points_completed] += story.estimate unless story.estimate.nil?
+        end
+      end
+    end
+
+
+    @week_labels = []
+    @completed_results = []
+    @ticketed_results = []
+    @points_ticketed = []
+    @points_completed = []
+
+    @weeks_array.each_with_index {|week, idx| @week_labels << [idx, idx == 7 ? "Now" : "Week #{idx + 1}"]}
+
+    @results.each_with_index {|week, idx| @ticketed_results << [idx, week[:ticketed]]; @points_ticketed << [idx, week[:points_ticketed]]}
+
+    @results.each_with_index {|week, idx| @completed_results << [idx + 0.5, week[:completed]]; @points_completed << [idx + 0.5, week[:points_completed]]}
+    
+    haml :history
+  end
+
   get '/login' do
     haml :login
   end
